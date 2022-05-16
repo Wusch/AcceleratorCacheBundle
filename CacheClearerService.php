@@ -10,11 +10,11 @@ class CacheClearerService
     const MODE_FOPEN = 'fopen';
     const MODE_CURL = 'curl';
 
-    private $host;
-    private $webDir;
-    private $template;
-    private $mode;
-    private $options;
+    private string $host;
+    private string $webDir;
+    private string $template;
+    private string $mode;
+    private array $options;
 
     /**
      * @param string $host
@@ -23,7 +23,7 @@ class CacheClearerService
      * @param string $mode
      * @param array  $options
      */
-    public function __construct($host, $webDir, $template, $mode = self::MODE_FOPEN, array $options = array())
+    public function __construct(string $host, string $webDir, string $template, string $mode = self::MODE_FOPEN, array $options = array())
     {
         if (!in_array($mode, array(self::MODE_FOPEN, self::MODE_CURL))) {
             throw new \InvalidArgumentException(sprintf('"%s" is not a valid mode.', $mode));

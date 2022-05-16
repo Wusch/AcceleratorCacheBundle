@@ -13,7 +13,7 @@ class AcceleratorCacheClearer
      *
      * @return array
      */
-    public static function clearCache($user = true, $opcode = true)
+    public static function clearCache(bool $user = true, bool $opcode = true): array
     {
         if (!$user && !$opcode) {
             throw new \InvalidArgumentException('No caches to clear.');
@@ -46,7 +46,7 @@ class AcceleratorCacheClearer
     /**
      * @return string
      */
-    private static function clearUserCache()
+    private static function clearUserCache(): string
     {
         if (function_exists('wincache_ucache_clear') && wincache_ucache_clear()) {
             return 'Wincache User Cache: success.';
@@ -79,7 +79,7 @@ class AcceleratorCacheClearer
     /**
      * @return string
      */
-    private static function clearOpcodeCache()
+    private static function clearOpcodeCache(): string
     {
         if (function_exists('opcache_reset') && opcache_reset()) {
             return 'Zend OPcache: success.';
