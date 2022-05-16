@@ -11,9 +11,9 @@ use Symfony\Component\Process\Process;
  */
 class ScriptHandler
 {
-    private static $options = array(
+    private static array $options = [
         'symfony-bin-dir' => 'app',
-    );
+    ];
 
     /**
      * Clears the APC/Wincache/Opcache cache.
@@ -56,7 +56,7 @@ class ScriptHandler
      * @param Event $event
      * @return array
      */
-    private static function getOptions(Event $event)
+    private static function getOptions(Event $event): array
     {
         $options = array_merge(static::$options, $event->getComposer()->getPackage()->getExtra());
 
@@ -71,7 +71,7 @@ class ScriptHandler
      * @param $cmd
      * @param int $timeout
      */
-    private static function executeCommand(Event $event, $consoleDir, $cmd, $timeout = 300)
+    private static function executeCommand(Event $event, $consoleDir, $cmd, int $timeout = 300)
     {
         $php = escapeshellarg(static::getPhp(false));
         $phpArgs = implode(' ', array_map('escapeshellarg', static::getPhpArguments()));
@@ -80,7 +80,7 @@ class ScriptHandler
             $console .= ' --ansi';
         }
 
-        $process = new Process($php.($phpArgs ? ' '.$phpArgs : '').' '.$console.' '.$cmd, null, null, null, $timeout);
+        $process = new Process([$php . ($phpArgs ? ' '.$phpArgs : '') . ' ' . $console . ' ' .$cmd], null, null, null, $timeout);
         $process->run(function ($type, $buffer) use ($event) { $event->getIO()->write($buffer, false); });
         if (!$process->isSuccessful()) {
             throw new \RuntimeException(sprintf("An error occurred when executing the \"%s\" command:\n\n%s\n\n%s", escapeshellarg($cmd), self::removeDecoration($process->getOutput()), self::removeDecoration($process->getErrorOutput())));
@@ -91,7 +91,7 @@ class ScriptHandler
      * @param bool $includeArgs
      * @return mixed
      */
-    private static function getPhp($includeArgs = true)
+    private static function getPhp(bool $includeArgs = true)
     {
         $phpFinder = new PhpExecutableFinder();
         if (!$phpPath = $phpFinder->find($includeArgs)) {
@@ -104,9 +104,8 @@ class ScriptHandler
     /**
      * @return array
      */
-    private static function getPhpArguments()
+    private static function getPhpArguments(): array
     {
-        $ini = null;
         $arguments = array();
 
         $phpFinder = new PhpExecutableFinder();

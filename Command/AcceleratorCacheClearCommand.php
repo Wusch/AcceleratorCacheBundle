@@ -11,10 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AcceleratorCacheClearCommand extends Command
 {
-    /**
-     * @var CacheClearerService
-     */
-    private $cacheClearer;
+    private CacheClearerService $cacheClearer;
 
     public function __construct(CacheClearerService $cacheClearer)
     {
@@ -41,7 +38,7 @@ class AcceleratorCacheClearCommand extends Command
     /**
      * {@inheritdoc}
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $clearOpcode = $input->getOption('opcode') || !$input->getOption('user');
         $clearUser = $input->getOption('user') || !$input->getOption('opcode');
@@ -59,5 +56,7 @@ class AcceleratorCacheClearCommand extends Command
         }
 
         $output->writeln(sprintf('(%s) %s', $type, $result['message']));
+
+        return 0;
     }
 }

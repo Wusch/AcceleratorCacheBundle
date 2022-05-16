@@ -37,15 +37,15 @@ class CacheClearerService
     }
 
     /**
-     * @param bool        $user
-     * @param bool        $opcode
+     * @param bool $user
+     * @param bool $opcode
      * @param string|null $authentication
      *
      * @return array
      *
      * @throws \Exception
      */
-    public function clearCache($user = true, $opcode = true, $authentication = null)
+    public function clearCache(bool $user = true, bool $opcode = true, string $authentication = null): array
     {
         $filename = $this->createTemporaryFile($user, $opcode);
         $url = sprintf('%s/%s', $this->host, basename($filename));
@@ -64,12 +64,12 @@ class CacheClearerService
     }
 
     /**
-     * @param string      $url
+     * @param string $url
      * @param string|null $authentication
      *
      * @return string
      */
-    private function sendRequest($url, $authentication = null)
+    private function sendRequest(string $url, string $authentication = null): string
     {
         if (self::MODE_FOPEN === $this->mode) {
             return $this->sendFopenRequest($url, $authentication);
@@ -79,12 +79,12 @@ class CacheClearerService
     }
 
     /**
-     * @param string      $url
+     * @param string $url
      * @param string|null $authentication
      *
      * @return string
      */
-    private function sendFopenRequest($url, $authentication = null)
+    private function sendFopenRequest(string $url, string $authentication = null): string
     {
         $context = null;
 
@@ -93,8 +93,6 @@ class CacheClearerService
                 'header' => 'Authorization: Basic '.base64_encode($authentication),
             )));
         }
-
-        $result = false;
 
         for ($i = 0; $i < 5; $i++) {
             if ($result = @file_get_contents($url, null, $context)) {
@@ -112,12 +110,12 @@ class CacheClearerService
     }
 
     /**
-     * @param string      $url
+     * @param string $url
      * @param string|null $authentication
      *
      * @return string
      */
-    private function sendCurlRequest($url, $authentication = null)
+    private function sendCurlRequest(string $url, string $authentication = null): string
     {
         $handle = curl_init($url);
 
@@ -153,7 +151,7 @@ class CacheClearerService
      *
      * @return string
      */
-    private function createTemporaryFile($user, $opcode)
+    private function createTemporaryFile(bool $user, bool $opcode): string
     {
         if (!is_dir($this->webDir)) {
             throw new \InvalidArgumentException(sprintf('Web dir does not exist "%s"', $this->webDir));

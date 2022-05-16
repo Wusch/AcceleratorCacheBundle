@@ -11,10 +11,10 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('accelerator_cache');
+        $treeBuilder = new TreeBuilder('accelerator_cache');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -41,7 +41,7 @@ class Configuration implements ConfigurationInterface
                             return $opts;
                         })
                     ->end()
-                    ->defaultValue(array())
+                    ->defaultValue([])
                     ->useAttributeAsKey('name', false)
                     ->prototype('scalar')->end()
                 ->end()

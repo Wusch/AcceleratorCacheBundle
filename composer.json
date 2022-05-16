@@ -16,13 +16,14 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": ">=2.1",
-        "symfony/console": ">=2.1"
+        "symfony/framework-bundle": ">=5.0",
+        "symfony/console": ">=5.0",
+        "ext-json": "*"
     },
     "require-dev": {
-        "composer/composer": "1.0.*@dev",
-        "phpunit/phpunit": "~6.3",
-        "matthiasnoback/symfony-dependency-injection-test": "~2.1"
+        "composer/composer": "2.0.*@dev",
+        "phpunit/phpunit": "~8.0",
+        "matthiasnoback/symfony-dependency-injection-test": "~4.0"
     },
     "extra": {
         "branch-alias": {
